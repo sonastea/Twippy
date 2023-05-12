@@ -1,0 +1,13 @@
+.venv
+scripts
+htmlcov
+__pycache__
+.pytest_cache
+.github
+.gitlab
+.cache
+.coverage
+.coveragerc
+.gitignore
+*.log
+docker
