@@ -63,3 +63,6 @@ venv.bak/
 
 # Bot logs
 discord*.log
+
+# handles json dump
+handles.json
