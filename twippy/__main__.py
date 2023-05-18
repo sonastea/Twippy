@@ -1,6 +1,6 @@
-import discord
 import os
 import sys
+import discord
 
 from bot import Bot
 from log import get_logger
@@ -9,9 +9,9 @@ log = get_logger("Twippy")
 
 
 if "TOKEN" not in os.environ:
-    message = "TOKEN is not set as an environment variable"
-    log.fatal(message)
-    sys.exit(message)
+    MESSAGE = "TOKEN is not set as an environment variable"
+    log.fatal(MESSAGE)
+    sys.exit(MESSAGE)
 
 
 if __name__ == "__main__":
