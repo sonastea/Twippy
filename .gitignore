@@ -49,6 +49,9 @@ cover/
 __pypackages__/
 
 # Environments
+pyrightconfig.json
+.python-version
+
 .env
 .envrc
 .venv

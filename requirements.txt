@@ -1,6 +1,7 @@
 aiohttp==3.8.4
 aiosignal==1.3.1
 anyio==3.6.2
+astroid==2.15.5
 async-timeout==4.0.2
 attrs==23.1.0
 autopep8==2.0.2
@@ -10,13 +11,18 @@ certifi==2023.5.7
 charset-normalizer==3.1.0
 click==8.1.3
 dateutils==0.6.12
+dill==0.3.6
 discord.py==2.2.3
 et-xmlfile==1.1.0
+flake8==6.0.0
 frozenlist==1.3.3
 h11==0.14.0
-httpcore==0.17.0
-httpx==0.24.0
+httpcore==0.17.1
+httpx==0.24.1
 idna==3.4
+isort==5.12.0
+lazy-object-proxy==1.9.0
+mccabe==0.7.0
 multidict==6.0.4
 mypy-extensions==1.0.0
 openpyxl==3.1.2
@@ -24,6 +30,8 @@ packaging==23.1
 pathspec==0.11.1
 platformdirs==3.5.0
 pycodestyle==2.10.0
+pyflakes==3.0.1
+pylint==2.17.4
 PySocks==1.7.1
 python-dateutil==2.8.2
 pytz==2023.3
@@ -31,6 +39,9 @@ six==1.16.0
 sniffio==1.3.0
 soupsieve==2.4.1
 tomli==2.0.1
+tomlkit==0.11.8
 tqdm==4.65.0
-tweety-ns @ git+https://github.com/mahrtayyab/tweety@a79444b473770c944f8cc7b053bf06e972552e3b
+tweety-ns @ git+https://github.com/mahrtayyab/tweety.git@df9b3fa563e4deb3580214ae77236f99a221ffa4
+typing_extensions==4.5.0
+wrapt==1.15.0
 yarl==1.9.2
