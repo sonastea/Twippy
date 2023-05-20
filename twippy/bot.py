@@ -124,6 +124,7 @@ class Bot(Client):
         log.info("<retrieve_saved_handles>")
 
         file = open("handles.json", "a+", encoding="utf-8")
+        file.seek(0)
         try:
             saved_handles = json.load(file)
             for handle, channel_id in saved_handles.items():
