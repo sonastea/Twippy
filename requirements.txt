@@ -28,7 +28,7 @@ mypy-extensions==1.0.0
 openpyxl==3.1.2
 packaging==23.1
 pathspec==0.11.1
-platformdirs==3.5.0
+platformdirs==3.5.1
 pycodestyle==2.10.0
 pyflakes==3.0.1
 pylint==2.17.4
@@ -41,7 +41,7 @@ soupsieve==2.4.1
 tomli==2.0.1
 tomlkit==0.11.8
 tqdm==4.65.0
-tweety-ns @ git+https://github.com/mahrtayyab/tweety.git@df9b3fa563e4deb3580214ae77236f99a221ffa4
-typing_extensions==4.5.0
+tweety-ns @ https://github.com/mahrtayyab/tweety/archive/main.zip#sha256=3a15e03b358be6b9ff2d8f99e0ba58e3a87cf287c7f75498bff825d85b6a8c87
+typing_extensions==4.6.0
 wrapt==1.15.0
 yarl==1.9.2
