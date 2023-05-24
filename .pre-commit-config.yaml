@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        language: system
+        entry: pylint twippy
+        types: ["python"]
+        always_run: true
+      - id: flake8
+        name: flake8
+        language: system
+        entry: flake8 twippy
+        types: ["python"]
+        always_run: true

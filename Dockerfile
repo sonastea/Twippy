@@ -1,4 +1,4 @@
-FROM python:3.10.6-slim
+FROM python:3.11.3-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git && \
@@ -10,9 +10,11 @@ ENV TOKEN=${TOKEN}
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
+RUN <<-EOF
+    pip install --no-cache-dir --upgrade pip==23.1.2
+    pip install --no-cache-dir .
+EOF
+
 
 CMD ["python", "twippy"]

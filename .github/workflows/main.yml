@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  linters:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+
+      - name: Install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .["linters"]
+
+  build:
+    name: Build and push image
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs:
+      - linters
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up docker buildx
+        uses: docker/setup-buildx-action@a946f06b5ddbde456d0115dc585e8dc3c7a0c3e0
+
+      - name: Login to github container registry
+        uses: docker/login-action@40891eba8c2bcd1309b07ba8b11232f313e86779
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for image
+        id: meta
+        uses: docker/metadata-action@c4ee3adeed93b1fa6a762f209fb01608c1a22f1e
+        with:
+          images: ${{ env.REGISTRY }}/${{github.repository}}
+          tags: |
+            type=ref,event=tag
+            type=ref,event=branch
+            type=sha,prefix=,suffix=
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        env:
+          TOKEN: ${{ secrets.TWIPPY_TOKEN }}
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  generate-sha-tag:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    outputs:
+      sha-tag: ${{ steps.sha-tag.outputs.sha-tag }}
+
+    steps:
+      - name: Create SHA Container tag
+        id: sha-tag
+        run: |
+          tag=$(cut -c 1-7 <<< $GITHUB_SHA)
+          echo "sha-tag=$tag" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: Deploy twippy bot
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - generate-sha-tag
+    environment: production
+
+    steps:
+      - name: Deploy and run docker container
+        uses: appleboy/ssh-action@master
+        env:
+          TOKEN: ${{ secrets.TWIPPY_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          envs: TOKEN
+          script: |
+            docker image prune -f --all
+            docker pull ghcr.io/sonastea/twippy:${{ needs.generate-sha-tag.outputs.sha-tag }}
+            docker rm -f twippy
+            docker run -d --name twippy -e TOKEN=$TOKEN --mount type=bind,source="$(pwd)"/twippy/handles.json,target=/app/handles.json ghcr.io/sonastea/twippy:${{ needs.generate-sha-tag.outputs.sha-tag }}

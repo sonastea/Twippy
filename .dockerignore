@@ -11,3 +11,7 @@ __pycache__
 .gitignore
 *.log
 docker
+Dockerfile
+.pylintrc
+.pre-commit-config.yaml
+
