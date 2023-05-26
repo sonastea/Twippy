@@ -11,8 +11,6 @@ setup_logger()
 
 log = get_logger("Twippy")
 
-BOT_ID = 1105600725129633884
-
 handles = {}
 
 
@@ -31,7 +29,7 @@ class Bot(Client):
 
     async def on_disconnect(self):
         log.info("Disconnected as %s", self.user)
-        self.dump_handles_data()
+        await self.dump_handles_data()
 
     async def dump_handles_data(self):
         with open("handles.json", "w", encoding="utf-8") as file:
@@ -66,7 +64,7 @@ class Bot(Client):
         messages = [
             message
             async for message in channel.history(limit=200)
-            if message.author.id == BOT_ID
+            if message.author.id == self.user.id
         ]
 
         # Generic tweet url: https://twitter.com/{handle}/status/{tweet_id}
