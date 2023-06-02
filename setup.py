@@ -13,7 +13,7 @@ setup(
     ],
     install_requires=[
         "discord.py",
-        "tweety-ns@git+https://github.com/mahrtayyab/tweety#9bf16ff",
+        "snscrape@git+https://github.com/JustAnotherArchivist/snscrape.git",
     ],
     python_requires=">=3.8",
     extras_require={"linters": ["pylint", "flake8", "pre-commit"]},

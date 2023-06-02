@@ -90,7 +90,7 @@ class Bot(Client):
                 # Else: Offset to 0 assuming new recent list or out of range
                 tweets = await scraper.get(handle)
                 tweet = next(
-                    (tweet for tweet in tweets if tweet.id ==
+                    (tweet for tweet in tweets if tweet['id'] ==
                      tweet_ids[handle]), None
                 )
 
@@ -114,7 +114,7 @@ class Bot(Client):
                 tweets) else len(tweets)
         )
         for tweet in tweets[offset:]:
-            msg = f"https://twitter.com/{handle}/status/{tweet.id}"
+            msg = f"https://twitter.com/{handle}/status/{tweet['id']}"
             await channel.send(msg)
 
     @tasks.loop(count=1)
