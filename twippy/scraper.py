@@ -12,7 +12,7 @@ async def get(handle: str):
     qry = f"(from:{handle} since:{dayago})"
 
     for idx, tweet in enumerate(twit.TwitterSearchScraper(qry).get_items()):
-        if idx > MAX_NUM_TWEETS:
+        if idx >= MAX_NUM_TWEETS:
             break
 
         tweets.append({"url": tweet.url, "id": str(tweet.id)})
