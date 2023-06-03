@@ -11,6 +11,9 @@ async def get(handle: str):
 
     qry = f"(from:{handle} since:{dayago})"
 
+    if handle == "pogzilla1":
+        qry = f"(from:{handle} since:{dayago} filter:twimg)"
+
     for idx, tweet in enumerate(twit.TwitterSearchScraper(qry).get_items()):
         if idx >= MAX_NUM_TWEETS:
             break

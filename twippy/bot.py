@@ -133,7 +133,7 @@ class Bot(Client):
 
         self.retrieve_tweets.start()
 
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=300)
     async def retrieve_tweets(self):
         log.info("<retrieve_tweets> __Starting__")
 
