@@ -16,5 +16,4 @@ RUN <<-EOF
     pip install --no-cache-dir .
 EOF
 
-
-CMD ["python", "twippy"]
+ENTRYPOINT ["python", "twippy"]

@@ -89,16 +89,21 @@ class Bot(Client):
                 # Exists: Set prev list length including last message as offset
                 # Else: Offset to 0 assuming new recent list or out of range
                 tweets = await scraper.get(handle)
-                tweet = next(
-                    (tweet for tweet in tweets if tweet['id'] ==
-                     tweet_ids[handle]), None
-                )
+                if isinstance(tweets, list):
+                    tweet = next(
+                        (tweet for tweet in tweets if tweet["id"]
+                         == tweet_ids[handle]),
+                        None,
+                    )
 
-                if tweet is not None:
-                    index = tweets.index(tweet)
-                    self.offset[handle] = 0 if index == -1 | 0 else index + 1
+                    if tweet is not None:
+                        index = tweets.index(tweet)
+                        self.offset[handle] = 0 if index == - \
+                            1 | 0 else index + 1
+                    else:
+                        self.offset[handle] = 0
                 else:
-                    self.offset[handle] = 0
+                    self.offset[handle] = scraper.MAX_NUM_TWEETS
 
     async def send_new_messages(self, handle: str, channel_id: int) -> None:
         log.info("<send_new_messages> %s,%s", handle, channel_id)
